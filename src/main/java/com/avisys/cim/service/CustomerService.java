@@ -1,0 +1,10 @@
+package com.avisys.cim.service;
+
+import com.avisys.cim.dto.CustomerDto;
+
+import java.util.List;
+
+public interface CustomerService {
+
+    List<CustomerDto> getAllCustomersByFilters(String firstName, String lastName, String mobileNumber);
+}
