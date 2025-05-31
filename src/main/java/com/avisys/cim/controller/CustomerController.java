@@ -2,12 +2,12 @@ package com.avisys.cim.controller;
 
 import com.avisys.cim.dto.CustomerDto;
 import com.avisys.cim.service.CustomerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +24,11 @@ public class CustomerController {
                                                           @RequestParam(required = false) String mobileNumber){
         List<CustomerDto> allCustomers = customerService.getAllCustomersByFilters(firstName, lastName, mobileNumber);
         return ResponseEntity.ok(allCustomers);
+    }
+
+    @PostMapping
+    public ResponseEntity<CustomerDto> createCustomer(@Valid @RequestBody CustomerDto customerDto) {
+        CustomerDto savedCustomer = customerService.createCustomer(customerDto);
+        return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED);
     }
 }

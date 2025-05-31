@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer,Long> {
 
@@ -16,4 +17,6 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
     List<Customer> findCustomersByFilters(@Param("firstName") String firstName,
                                           @Param("lastName") String lastName,
                                           @Param("mobileNumber") String mobileNumber);
+
+    Optional<Customer> findByMobileNumber(String mobileNumber);
 }
