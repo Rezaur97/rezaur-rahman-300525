@@ -6,13 +6,13 @@ import com.avisys.cim.dto.CustomerDto;
 import com.avisys.cim.entity.MobileNumber;
 import com.avisys.cim.exception.MobileNumberAlreadyExistsException;
 import com.avisys.cim.repository.CustomerRepository;
+import com.avisys.cim.repository.MobileNumberRepository;
 import com.avisys.cim.service.CustomerService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,6 +20,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private MobileNumberRepository mobileNumberRepository;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -35,17 +38,19 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerDto createCustomer(CustomerDto customerDto) {
-        Customer customerToSave = convertToEntity(customerDto);
 
         List<String> numbers = customerDto.getMobileNumbers()
                 .stream().map(MobileNumberDto::getMobileNumber)
                 .collect(Collectors.toList());
 
-        List<MobileNumber> existingNumbers = customerRepository.findByMobileNumbersIn(numbers);
+        List<MobileNumber> existingNumbers = mobileNumberRepository.findByMobileNumberIn(numbers);
 
         if (!existingNumbers.isEmpty()) {
-            throw new MobileNumberAlreadyExistsException("Unable to create Customer. Mobile number already present.");
+            throw new MobileNumberAlreadyExistsException("Unable to create Customer. Mobile number(s) already present - "
+                    + existingNumbers.stream().map(MobileNumber::getMobileNumber).collect(Collectors.joining(", ")));
         }
+
+        Customer customerToSave = convertToEntity(customerDto);
 
         Customer savedCustomer = customerRepository.save(customerToSave);
         return convertToDto(savedCustomer);

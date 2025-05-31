@@ -1,13 +1,11 @@
 package com.avisys.cim.repository;
 
 import com.avisys.cim.entity.Customer;
-import com.avisys.cim.entity.MobileNumber;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface CustomerRepository extends JpaRepository<Customer,Long> {
 
@@ -18,7 +16,4 @@ public interface CustomerRepository extends JpaRepository<Customer,Long> {
     List<Customer> findCustomersByFilters(@Param("firstName") String firstName,
                                           @Param("lastName") String lastName,
                                           @Param("mobileNumber") String mobileNumber);
-
-    List<MobileNumber> findByMobileNumbersIn(List<String> numbers);
-
 }

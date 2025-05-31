@@ -1,9 +1,7 @@
 package com.avisys.cim.dto;
 
-import com.avisys.cim.entity.MobileNumber;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
 
 import java.util.List;
 
