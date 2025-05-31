@@ -1,6 +1,7 @@
 package com.avisys.cim.controller;
 
 import com.avisys.cim.dto.CustomerDto;
+import com.avisys.cim.dto.MobileNumberDto;
 import com.avisys.cim.service.CustomerService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,18 @@ public class CustomerController {
     public ResponseEntity<String> deleteCustomerByMobile(@PathVariable String mobileNumber) {
         customerService.deleteCustomerByMobile(mobileNumber);
         return ResponseEntity.ok("Customer deleted successfully.");
+    }
+
+    @PostMapping("/{customerId}/add-mobile")
+    public ResponseEntity<String> addMobileNumber(@PathVariable Long customerId,@Valid @RequestBody MobileNumberDto newNumberDto) {
+        customerService.addMobileNumber(customerId, newNumberDto.getMobileNumber());
+        return ResponseEntity.ok("Mobile number added successfully.");
+    }
+
+    @DeleteMapping("/mobile/{mobileNumber}")
+    public ResponseEntity<String> deleteMobileNumber(@PathVariable String mobileNumber) {
+        customerService.deleteMobileNumber(mobileNumber);
+        return ResponseEntity.ok("Mobile number deleted successfully.");
     }
 
 }

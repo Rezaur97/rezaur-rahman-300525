@@ -2,6 +2,7 @@ package com.avisys.cim.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ public class CustomerDto {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
+    @NotEmpty(message = "At least one mobile number is required")
     private List<@Valid MobileNumberDto> mobileNumbers;
 
     public Long getId() {

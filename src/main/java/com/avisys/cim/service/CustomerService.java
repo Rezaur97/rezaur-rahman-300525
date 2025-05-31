@@ -11,4 +11,8 @@ public interface CustomerService {
     CustomerDto createCustomer(CustomerDto customerDto);
 
     void deleteCustomerByMobile(String mobileNumber);
+
+    void addMobileNumber(Long customerId, String mobileNumber);
+
+    void deleteMobileNumber(String mobileNumber);
 }

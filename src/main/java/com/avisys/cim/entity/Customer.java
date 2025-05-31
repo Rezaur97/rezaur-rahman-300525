@@ -20,7 +20,7 @@ public class Customer {
 	@Column(name = "LAST_NAME", nullable = false)
 	private String lastName;
 
-	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
 	@JsonManagedReference
 	private List<MobileNumber> mobileNumbers = new ArrayList<>();
 

@@ -66,6 +66,34 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.delete(customer);
     }
 
+    @Override
+    public void addMobileNumber(Long customerId, String mobileNumber) {
+        mobileNumberRepository.findByMobileNumber(mobileNumber)
+                .ifPresent(m -> {
+                    throw new MobileNumberAlreadyExistsException("Mobile number already exists.");
+                });
+
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found with Id - "+customerId));
+
+        MobileNumber newMobile = new MobileNumber();
+        newMobile.setMobileNumber(mobileNumber);
+        newMobile.setCustomer(customer);
+
+        customer.getMobileNumbers().add(newMobile);
+        customerRepository.save(customer);
+    }
+
+    @Override
+    public void deleteMobileNumber(String mobileNumber) {
+        MobileNumber mobile = mobileNumberRepository.findByMobileNumber(mobileNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Mobile number not found - "+mobileNumber));
+
+        Customer customer = mobile.getCustomer();
+        customer.getMobileNumbers().remove(mobile);
+        customerRepository.save(customer);
+    }
+
     private CustomerDto convertToDto(Customer customer) {
         CustomerDto dto = new CustomerDto();
         dto.setId(customer.getId());
