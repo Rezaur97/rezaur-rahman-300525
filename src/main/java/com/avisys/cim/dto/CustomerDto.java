@@ -1,7 +1,11 @@
 package com.avisys.cim.dto;
 
+import com.avisys.cim.entity.MobileNumber;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+
+import java.util.List;
 
 public class CustomerDto {
 
@@ -13,9 +17,7 @@ public class CustomerDto {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @NotBlank(message = "Mobile number is required")
-    @Pattern(regexp = "^[0-9]{10}$", message = "Mobile number must be 10 digits")
-    private String mobileNumber;
+    private List<@Valid MobileNumberDto> mobileNumbers;
 
     public Long getId() {
         return id;
@@ -41,11 +43,11 @@ public class CustomerDto {
         this.lastName = lastName;
     }
 
-    public String getMobileNumber() {
-        return mobileNumber;
+    public List<MobileNumberDto> getMobileNumbers() {
+        return mobileNumbers;
     }
 
-    public void setMobileNumber(String mobileNumber) {
-        this.mobileNumber = mobileNumber;
+    public void setMobileNumbers(List<MobileNumberDto> mobileNumbers) {
+        this.mobileNumbers = mobileNumbers;
     }
 }
