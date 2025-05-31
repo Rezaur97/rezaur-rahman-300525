@@ -9,4 +9,6 @@ public interface CustomerService {
     List<CustomerDto> getAllCustomersByFilters(String firstName, String lastName, String mobileNumber);
 
     CustomerDto createCustomer(CustomerDto customerDto);
+
+    void deleteCustomerByMobile(String mobileNumber);
 }

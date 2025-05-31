@@ -31,4 +31,11 @@ public class CustomerController {
         CustomerDto savedCustomer = customerService.createCustomer(customerDto);
         return new ResponseEntity<>(savedCustomer, HttpStatus.CREATED);
     }
+
+    @DeleteMapping("/by-mobile/{mobileNumber}")
+    public ResponseEntity<String> deleteCustomerByMobile(@PathVariable String mobileNumber) {
+        customerService.deleteCustomerByMobile(mobileNumber);
+        return ResponseEntity.ok("Customer deleted successfully.");
+    }
+
 }

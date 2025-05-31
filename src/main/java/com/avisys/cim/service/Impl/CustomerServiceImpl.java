@@ -5,6 +5,7 @@ import com.avisys.cim.entity.Customer;
 import com.avisys.cim.dto.CustomerDto;
 import com.avisys.cim.entity.MobileNumber;
 import com.avisys.cim.exception.MobileNumberAlreadyExistsException;
+import com.avisys.cim.exception.ResourceNotFoundException;
 import com.avisys.cim.repository.CustomerRepository;
 import com.avisys.cim.repository.MobileNumberRepository;
 import com.avisys.cim.service.CustomerService;
@@ -54,6 +55,15 @@ public class CustomerServiceImpl implements CustomerService {
 
         Customer savedCustomer = customerRepository.save(customerToSave);
         return convertToDto(savedCustomer);
+    }
+
+    @Override
+    public void deleteCustomerByMobile(String mobileNumber) {
+        MobileNumber mobile = mobileNumberRepository.findByMobileNumber(mobileNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("Mobile number not found - " + mobileNumber));
+
+        Customer customer = mobile.getCustomer();
+        customerRepository.delete(customer);
     }
 
     private CustomerDto convertToDto(Customer customer) {
